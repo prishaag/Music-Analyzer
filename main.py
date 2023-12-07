@@ -3,6 +3,7 @@ import sqlite3
 import json
 import requests
 import os
+import re
 
 
 def setUpDatabase(db_name):
@@ -17,12 +18,13 @@ def createMasterTable(conn, cur):
 
 
 def insertBillboardSongs(conn, cur):
-    tracks = get25(cur, conn)
+    tracks = get25(cur)
     for track in tracks:
         id = track[0]
         title = track[1]
         artist = track[2]
         cur.execute("INSERT OR IGNORE INTO master (id, title, artist) VALUES (?, ?, ?)", (id, title, artist))
+    conn.commit()
 
 def get25(cur):
     url = "https://billboard2.p.rapidapi.com/hot_100"
@@ -43,7 +45,7 @@ def get25(cur):
     startRank = cur.fetchone()
     
     # if there are no entries, set to 1
-    if startRank is None:
+    if startRank[0] is None:
         startRank = 1
     else:
         # fetchone return type is a tuple -> startRank[first_element_in_tuple] 
@@ -59,6 +61,7 @@ def get25(cur):
         # adds 25 songs in rank range
         if rank in rankRange:
             title = track['title' ]
+            title = title.replace("&#039;", "'")
             artist = track['artist']
             trackStats.append(rank)
             trackStats.append(title)
@@ -68,8 +71,8 @@ def get25(cur):
 
 def main():
     cur, conn = setUpDatabase('database.db')
-    createMasterTable(conn, cur)
-    insertBillboardSongs(conn, cur)
+    #createMasterTable(conn, cur)
+    #insertBillboardSongs(conn, cur)
     
 main()
     
