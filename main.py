@@ -3,6 +3,10 @@ import sqlite3
 import json
 import requests
 import os
+import googleapiclient.discovery
+from googleapiclient.errors import HttpError
+import spotipy
+from spotipy.oauth2 import SpotifyClientCredentials
 
 
 def setUpDatabase(db_name):
@@ -12,11 +16,17 @@ def setUpDatabase(db_name):
     return cur, conn
 
 def createMasterTable(conn, cur):
-    cur.execute('''CREATE TABLE IF NOT EXISTS master (id INTEGER PRIMARY KEY, title TEXT UNIQUE, artist TEXT)''')
+    cur.execute('''CREATE TABLE IF NOT EXISTS master (id INTEGER, title TEXT UNIQUE, artist TEXT)''')
     conn.commit()
 
 def createYoutubeTables(conn, cur):
-    cur.execute("CREATE TABLE IF NOT EXISTS youtube (id )")
+    cur.execute("CREATE TABLE IF NOT EXISTS ytprimary (id INTEGER, views INTEGER, likes INTEGER)")
+    cur.execute("CREATE TABLE IF NOT EXISTS ytsecondary (id INTEGER, channel TEXT, publish_date TEXT, comments INTEGER)")
+    conn.commit()
+    
+def createSpotifyTable(conn, cur):
+    cur.execute("CREATE TABLE IF NOT EXISTS spotify (id INTEGER PRIMARY KEY, album TEXT, popularity REAL, danceability REAL, tempo REAL)")
+    conn.commit()
 
 def insertBillboardSongs(conn, cur):
     tracks = get25(cur)
@@ -62,7 +72,9 @@ def get25(cur):
         if rank in rankRange:
             title = track['title' ]
             title = title.replace("&#039;", "'")
+            title = title.replace("&amp;", '&')
             artist = track['artist']
+            artist = artist.replace("&amp;", "&")
             trackStats.append(rank)
             trackStats.append(title)
             trackStats.append(artist)
@@ -75,7 +87,7 @@ def load_secrets():
    return secrets
 
 #youtube function
-def get_youtube_video_info(api_key, song_title_list):
+def get_youtube_video_info(api_key, song_title_list, range):
    # Set up the YouTube Data API client
 
 
@@ -84,51 +96,50 @@ def get_youtube_video_info(api_key, song_title_list):
 
    result_list = []
 
-
    for song_title in song_title_list:
-       try:
-           # Search for videos with the given song title
-           search_response = youtube.search().list(
-               q=song_title,
-               part="id",
-               type="video",
-               maxResults=1 
-           ).execute()
+       if song_title[0] in range:
+        try:
+            # Search for videos with the given song title
+            search_response = youtube.search().list(
+                q=song_title[1],
+                part="id",
+                type="video",
+                maxResults=1 
+            ).execute()
 
 
-           # Extract video ID from the search response
-           video_id = search_response["items"][0]["id"]["videoId"]
+            # Extract video ID from the search response
+            video_id = search_response["items"][0]["id"]["videoId"]
 
 
-           # Get video details based on the extracted video ID
-           video_response = youtube.videos().list(
-               part="snippet,statistics",
-               id=video_id
-           ).execute()
+            # Get video details based on the extracted video ID
+            video_response = youtube.videos().list(
+                part="snippet,statistics",
+                id=video_id
+            ).execute()
 
 
-           # Extract relevant information from the video response
-           video_info = video_response["items"][0]["snippet"]
-           statistics = video_response["items"][0]["statistics"]
+            # Extract relevant information from the video response
+            video_info = video_response["items"][0]["snippet"]
+            statistics = video_response["items"][0]["statistics"]
+
+            
+            channel = video_info["channelTitle"]
+            publish_date = video_info["publishedAt"]
+            views = statistics.get("viewCount", "N/A")
+            likes = statistics.get("likeCount", "N/A")
+            comments = statistics.get("commentCount", "N/A")
+            #favorites = statistics.get("favoriteCount", "N/A")
+            #duration = content_details.get("duration", "N/A")
+            #category = video_info.get("categoryId", "N/A")
+            #description = video_info.get("description", "N/A")
+            result_list.append((song_title[0], channel, publish_date, views, likes, comments))
 
 
-         
-           channel = video_info["channelTitle"]
-           publish_date = video_info["publishedAt"]
-           views = statistics.get("viewCount", "N/A")
-           likes = statistics.get("likeCount", "N/A")
-           comments = statistics.get("commentCount", "N/A")
-           favorites = statistics.get("favoriteCount", "N/A")
-           duration = content_details.get("duration", "N/A")
-           category = video_info.get("categoryId", "N/A")
-           description = video_info.get("description", "N/A")
-           result_list.append((channel, publish_date, views, likes, comments, favorites, duration, category, description))
-
-
-       except HttpError as e:
-           print(f"\nAn error occurred for '{song_title}': {e}")
-       except IndexError:
-           print(f"\nNo videos found for the title '{song_title}'.")
+        except HttpError as e:
+            print(f"\nAn error occurred for '{song_title[1]}': {e}")
+        except IndexError:
+            print(f"\nNo videos found for the title '{song_title[1]}'.")
    return result_list
 
 #spotify function
@@ -142,7 +153,6 @@ def get_song_info(client_id, client_secret, song_title):
 
    # Search for the given song title
    result = sp.search(q=song_title, limit=1)
-
 
    if result['tracks']['items']:
        track = result['tracks']['items'][0]
@@ -177,6 +187,39 @@ def getSongTitles(cur):
     cur.execute("SELECT id, title FROM master")
     return cur.fetchall()
     
+def getRankRange(cur, conn, table):
+    select = "SELECT MAX(id) FROM " + table 
+    cur.execute(select)
+    startRank = cur.fetchone()
+    
+    # if there are no entries, set to 1
+    if startRank[0] is None:
+        startRank = 1
+    else:
+        # fetchone return type is a tuple -> startRank[first_element_in_tuple] 
+        startRank = startRank[0] + 1
+    # creates a list starting at last recorded rank + 1, spanning for 25
+    # * is used to unpack range, otherwise it would store [range(params)]
+    rankRange = [*range(startRank, startRank + 25)]
+    return rankRange
+
+def insertYoutubeTables(cur, conn, infoList):
+    rankRange = getRankRange(cur, conn, 'ytprimary')
+    for song in infoList:
+        if song[0] in rankRange:
+            cur.execute("INSERT OR IGNORE INTO ytsecondary (id, channel, publish_date, comments) VALUES (?, ?, ?, ?)", 
+                        (song[0], song[1], song[2], song[5]))
+            cur.execute("INSERT OR IGNORE INTO ytprimary (id, views, likes) VALUES (?, ?, ?)", (song[0], song[3], song[4]))
+    conn.commit()
+
+
+def insertSpotifyTable(cur, conn, infolist):
+    rankRange = getRankRange(cur, conn, 'spotify')
+    for song in infolist:
+        if song[0] in rankRange:
+            cur.execute("INSERT OR IGNORE INTO spotify (id, album, popularity, danceability, tempo) VALUES (?, ?, ?, ?, ?)", 
+                        (song[0], song[1]['Album'], song[1]['Popularity'], song[1]['Danceability'], song[1]['Tempo']))
+    conn.commit()
 
 
 def main():
@@ -193,28 +236,32 @@ def main():
     cur, conn = setUpDatabase('database.db')
     #createMasterTable(conn, cur)
     #insertBillboardSongs(conn, cur)
+    createYoutubeTables(conn, cur)
+    createSpotifyTable(conn, cur)
 
 
     #list of rank as tuples -> [(rank(id), title), (id, title)...]
     song_list = getSongTitles(cur) #need to be passed a list
 
    #youtube
+    range = getRankRange(cur, conn, 'ytprimary')
     youtube_tuples_list = []
-    youtube_tuples_list = get_youtube_video_info(api_key, song_titles) # stored as list of tuples
-    #append this into database.. how
-
+    youtube_tuples_list = get_youtube_video_info(api_key, song_list, range) # stored as list of tuples
+    insertYoutubeTables(cur, conn, youtube_tuples_list)
 
    #spotify
-   #take same list of song_titles as the youtube function
+   #take same list of song_list as the youtube function
     spotify_data = [] #list of song_info dictionaries
-    for song_title in song_titles:
-        song_info = get_song_info(song_title)
-        spotify_data.append(song_info)
-    #append spotify_data into database.. how
+    rankRange = getRankRange(cur, conn, 'spotify')
+    for song_title in song_list:
+        if song_title[0] in rankRange:
+            song_info = get_song_info(client_id, client_secret, song_title[1])
+            spotify_data.append((song_title[0], song_info))
+    insertSpotifyTable(cur, conn, spotify_data)
 
 
-    
-
-    
 main()
+
+    
+
     
