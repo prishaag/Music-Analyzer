@@ -104,13 +104,13 @@ def main():
     fig, axs = plt.subplots(3, 3, figsize=(15, 12))
 
     # creating scatter plots for yt data
-    createLinePlot(axs[0, 0], views, 'Ranking Intervals', 'Mean Views by Ranking Intervals', 'Mean Views by Ranking Intervals')
-    createLinePlot(axs[0, 1], likes, 'Ranking Intervals', 'Mean Likes by Ranking Intervals', 'Mean Likes by Ranking Intervals')
-    createLinePlot(axs[0, 2], comments, 'Ranking Intervals', 'Mean Comments by Ranking Intervals', 'Mean Comments by Ranking Intervals')
+    createLinePlot(axs[0, 0], views, 'Ranking Intervals (higher is lower rank)', 'Mean Views by Ranking Intervals', 'Mean Views by Ranking Intervals')
+    createLinePlot(axs[0, 1], likes, 'Ranking Intervals (higher is lower rank)', 'Mean Likes by Ranking Intervals', 'Mean Likes by Ranking Intervals')
+    createLinePlot(axs[0, 2], comments, 'Ranking Intervals (higher is lower rank)', 'Mean Comments by Ranking Intervals', 'Mean Comments by Ranking Intervals')
 
     # creating scatter plots for spotify data
     createScatterPlot(axs[1, 1], popularity, tempo, 'Popularity', 'Tempo', 'Tempo by Popularity')
-    createScatterPlot(axs[1, 2], popularity, danceability, 'Popularity', 'Danceability', 'Danceability by Popularity')
+    createScatterPlot(axs[1, 0], popularity, danceability, 'Popularity', 'Danceability', 'Danceability by Popularity')
 
     # creating histograms for spotify audio features
     createHistogram(axs[2, 0], danceability, 'Danceability')
