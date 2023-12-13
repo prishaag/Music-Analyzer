@@ -14,6 +14,7 @@ def setUpDatabase(db_name):
     cur = conn.cursor()
     return cur, conn
 
+# returns lists of yt data
 def meanYtData(cur):
     cur.execute("SELECT ytprimary.id, views, likes, comments FROM ytprimary JOIN ytsecondary WHERE ytprimary.id = ytsecondary.id ORDER BY ytprimary.id")
     songs = cur.fetchall()
@@ -33,16 +34,19 @@ def meanYtData(cur):
             commentMeans.append(((commentTotals / 10), (view[0])))
     return viewMeans, likeMeans, commentMeans           
         
+# returns list of spotify data as tuples
 def meanSpotifyData(cur):
     cur.execute("SELECT spotify.id, popularity, danceability, tempo, master.title, master.artist FROM spotify JOIN master WHERE spotify.id = master.id ORDER BY spotify.id")
     songs = cur.fetchall()
     return songs
     
+# returns audio features for visualizations
 def getAudioFeatures(cur):
     cur.execute("SELECT popularity, danceability, tempo FROM spotify")
     audio_features = cur.fetchall()
     return audio_features
 
+# creates line plot and takes in plot parameters
 def createLinePlot(ax, data, xLabel, yLabel, plotTitle):
     xValues = [item[1] for item in data]
     yValues = [item[0] for item in data]
@@ -51,6 +55,7 @@ def createLinePlot(ax, data, xLabel, yLabel, plotTitle):
     ax.set_ylabel(yLabel)
     ax.set_title(plotTitle)
 
+# creates histogram and takes in plot parameters
 def createHistogram(ax, featureData, featureName):
     ax.hist(featureData, bins=20, color='skyblue', edgecolor='black')
     ax.set_xlabel(featureName)
@@ -58,6 +63,7 @@ def createHistogram(ax, featureData, featureName):
     ax.set_title(f'Histogram of {featureName}')
     ax.grid(axis='y', linestyle='--', alpha=0.7)
 
+# creates scatter plot with given parameters
 def createScatterPlot(ax, xValues, yValues, xLabel, yLabel, plotTitle):
     ax.scatter(xValues, yValues, marker='o', label='Data')
 

@@ -9,25 +9,30 @@ import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 
 
+#sets up data base and returns cursor, conn to db
 def setUpDatabase(db_name):
     path = os.path.dirname(os.path.abspath(__file__))
     conn = sqlite3.connect(path+'/'+db_name)
     cur = conn.cursor()
     return cur, conn
 
+# creates master table
 def createMasterTable(conn, cur):
     cur.execute('''CREATE TABLE IF NOT EXISTS master (id INTEGER, title TEXT UNIQUE, artist TEXT)''')
     conn.commit()
 
+# creates youtube tables
 def createYoutubeTables(conn, cur):
     cur.execute("CREATE TABLE IF NOT EXISTS ytprimary (id INTEGER, views INTEGER, likes INTEGER)")
     cur.execute("CREATE TABLE IF NOT EXISTS ytsecondary (id INTEGER comments INTEGER)")
     conn.commit()
     
+# creates spotify table
 def createSpotifyTable(conn, cur):
     cur.execute("CREATE TABLE IF NOT EXISTS spotify (id INTEGER PRIMARY KEY, popularity REAL, danceability REAL, tempo REAL)")
     conn.commit()
 
+# inserts songs into master table
 def insertBillboardSongs(conn, cur):
     tracks = get25(cur)
     for track in tracks:
@@ -43,6 +48,7 @@ def insertBillboardSongs(conn, cur):
 
     conn.commit()
 
+# gets 25 billboard songs and returns data as list
 def get25(cur):
     url = "https://billboard2.p.rapidapi.com/hot_100"
 
@@ -93,6 +99,7 @@ def load_secrets():
    return secrets
 
 #youtube function
+# searches for video data given song title and returns youtube data
 def get_youtube_video_info(api_key, song_title_list, range):
    # Set up the YouTube Data API client
 
@@ -149,6 +156,7 @@ def get_youtube_video_info(api_key, song_title_list, range):
    return result_list
 
 #spotify function
+# searches for song data given title and returns spotify data
 def get_song_info(client_id, client_secret, song_title):
 
 
@@ -193,6 +201,8 @@ def getSongTitles(cur):
     cur.execute("SELECT id, title FROM master")
     return cur.fetchall()
     
+# searches previously inserted rank in input table
+# returns list range of 25 valid ranks to insert 
 def getRankRange(cur, conn, table):
     select = "SELECT MAX(id) FROM " + table 
     cur.execute(select)
@@ -209,6 +219,7 @@ def getRankRange(cur, conn, table):
     rankRange = [*range(startRank, startRank + 25)]
     return rankRange
 
+# adds youtube data to database
 def insertYoutubeTables(cur, conn, infoList):
     rankRange = getRankRange(cur, conn, 'ytprimary')
     for song in infoList:
@@ -218,7 +229,7 @@ def insertYoutubeTables(cur, conn, infoList):
             cur.execute("INSERT OR IGNORE INTO ytprimary (id, views, likes) VALUES (?, ?, ?)", (song[0], song[1], song[2]))
     conn.commit()
 
-
+# adds spotify data to database
 def insertSpotifyTable(cur, conn, infolist):
     rankRange = getRankRange(cur, conn, 'spotify')
     for song in infolist:
