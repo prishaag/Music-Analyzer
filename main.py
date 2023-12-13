@@ -21,11 +21,11 @@ def createMasterTable(conn, cur):
 
 def createYoutubeTables(conn, cur):
     cur.execute("CREATE TABLE IF NOT EXISTS ytprimary (id INTEGER, views INTEGER, likes INTEGER)")
-    cur.execute("CREATE TABLE IF NOT EXISTS ytsecondary (id INTEGER, channel TEXT, publish_date TEXT, comments INTEGER)")
+    cur.execute("CREATE TABLE IF NOT EXISTS ytsecondary (id INTEGER comments INTEGER)")
     conn.commit()
     
 def createSpotifyTable(conn, cur):
-    cur.execute("CREATE TABLE IF NOT EXISTS spotify (id INTEGER PRIMARY KEY, album TEXT, popularity REAL, danceability REAL, tempo REAL)")
+    cur.execute("CREATE TABLE IF NOT EXISTS spotify (id INTEGER PRIMARY KEY, popularity REAL, danceability REAL, tempo REAL)")
     conn.commit()
 
 def insertBillboardSongs(conn, cur):
@@ -34,7 +34,13 @@ def insertBillboardSongs(conn, cur):
         id = track[0]
         title = track[1]
         artist = track[2]
-        cur.execute("INSERT OR IGNORE INTO master (id, title, artist) VALUES (?, ?, ?)", (id, title, artist))
+        cur.execute("SELECT title FROM MASTER WHERE title = (?)", (title,))
+        if cur.fetchone() is None:
+            cur.execute("INSERT OR IGNORE INTO master (id, title, artist) VALUES (?, ?, ?)", (id, title, artist))
+        else:
+            title = title + "(repeat)"
+            cur.execute("INSERT OR IGNORE INTO master (id, title, artist) VALUES (?, ?, ?)", (id, title, artist))
+
     conn.commit()
 
 def get25(cur):
@@ -124,8 +130,8 @@ def get_youtube_video_info(api_key, song_title_list, range):
             statistics = video_response["items"][0]["statistics"]
 
             
-            channel = video_info["channelTitle"]
-            publish_date = video_info["publishedAt"]
+            #channel = video_info["channelTitle"]
+            #publish_date = video_info["publishedAt"]
             views = statistics.get("viewCount", "N/A")
             likes = statistics.get("likeCount", "N/A")
             comments = statistics.get("commentCount", "N/A")
@@ -133,7 +139,7 @@ def get_youtube_video_info(api_key, song_title_list, range):
             #duration = content_details.get("duration", "N/A")
             #category = video_info.get("categoryId", "N/A")
             #description = video_info.get("description", "N/A")
-            result_list.append((song_title[0], channel, publish_date, views, likes, comments))
+            result_list.append((song_title[0], views, likes, comments))
 
 
         except HttpError as e:
@@ -162,7 +168,7 @@ def get_song_info(client_id, client_secret, song_title):
        song_info = {
            #'Song Name': track['name'],
            #'Artist(s)': ', '.join([artist['name'] for artist in track['artists']]),
-           'Album': track['album']['name'],
+           #'Album': track['album']['name'],
            'Release Date': track['album']['release_date'],
            'Popularity': track['popularity'],
            'Danceability': None,
@@ -207,9 +213,9 @@ def insertYoutubeTables(cur, conn, infoList):
     rankRange = getRankRange(cur, conn, 'ytprimary')
     for song in infoList:
         if song[0] in rankRange:
-            cur.execute("INSERT OR IGNORE INTO ytsecondary (id, channel, publish_date, comments) VALUES (?, ?, ?, ?)", 
-                        (song[0], song[1], song[2], song[5]))
-            cur.execute("INSERT OR IGNORE INTO ytprimary (id, views, likes) VALUES (?, ?, ?)", (song[0], song[3], song[4]))
+            cur.execute("INSERT OR IGNORE INTO ytsecondary (id, comments) VALUES (?, ?)", 
+                        (song[0], song[3]))
+            cur.execute("INSERT OR IGNORE INTO ytprimary (id, views, likes) VALUES (?, ?, ?)", (song[0], song[1], song[2]))
     conn.commit()
 
 
@@ -217,8 +223,8 @@ def insertSpotifyTable(cur, conn, infolist):
     rankRange = getRankRange(cur, conn, 'spotify')
     for song in infolist:
         if song[0] in rankRange:
-            cur.execute("INSERT OR IGNORE INTO spotify (id, album, popularity, danceability, tempo) VALUES (?, ?, ?, ?, ?)", 
-                        (song[0], song[1]['Album'], song[1]['Popularity'], song[1]['Danceability'], song[1]['Tempo']))
+            cur.execute("INSERT OR IGNORE INTO spotify (id, popularity, danceability, tempo) VALUES (?, ?, ?, ?)", 
+                        (song[0], song[1]['Popularity'], song[1]['Danceability'], song[1]['Tempo']))
     conn.commit()
 
 
@@ -233,9 +239,9 @@ def main():
 
 
 
-    cur, conn = setUpDatabase('database.db')
-    #createMasterTable(conn, cur)
-    #insertBillboardSongs(conn, cur)
+    cur, conn = setUpDatabase('database3.db')
+    createMasterTable(conn, cur)
+    insertBillboardSongs(conn, cur)
     createYoutubeTables(conn, cur)
     createSpotifyTable(conn, cur)
 
@@ -258,7 +264,22 @@ def main():
             song_info = get_song_info(client_id, client_secret, song_title[1])
             spotify_data.append((song_title[0], song_info))
     insertSpotifyTable(cur, conn, spotify_data)
+    fixDB(cur, conn)
 
+# this was added to fix what we were losing points on without having to change the original implementation 
+def fixDB(cur, conn):
+    cur.execute('''CREATE TABLE IF NOT EXISTS artists (id INTEGER PRIMARY KEY, artist TEXT UNIQUE)''')
+    cur.execute('SELECT artist FROM master')
+    artists = cur.fetchall()
+    for artist in artists:
+        if not isinstance(artist[0], int):
+            cur.execute("INSERT OR IGNORE INTO artists (artist) VALUES (?)", (artist[0], ))
+            cur.execute("SELECT id FROM artists where artist = (?)", (artist[0], ))
+            id = cur.fetchone()
+            cur.execute("UPDATE master SET artist = ? WHERE artist = ?", (id[0], artist[0]))
+    conn.commit()
+
+    
 
 main()
 
