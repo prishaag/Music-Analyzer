@@ -24,7 +24,7 @@ def createMasterTable(conn, cur):
 # creates youtube tables
 def createYoutubeTables(conn, cur):
     cur.execute("CREATE TABLE IF NOT EXISTS ytprimary (id INTEGER, views INTEGER, likes INTEGER)")
-    cur.execute("CREATE TABLE IF NOT EXISTS ytsecondary (id INTEGER comments INTEGER)")
+    cur.execute("CREATE TABLE IF NOT EXISTS ytsecondary (id INTEGER, comments INTEGER)")
     conn.commit()
     
 # creates spotify table
@@ -93,6 +93,7 @@ def get25(cur):
             result.append(trackStats)
     return result
 
+# loads api keys from secrets.json
 def load_secrets():
    with open('secrets.json') as f:
        secrets = json.load(f)
@@ -238,7 +239,7 @@ def insertSpotifyTable(cur, conn, infolist):
                         (song[0], song[1]['Popularity'], song[1]['Danceability'], song[1]['Tempo']))
     conn.commit()
 
-
+# main function that runs everything
 def main():
 
 
@@ -250,7 +251,7 @@ def main():
 
 
 
-    cur, conn = setUpDatabase('database3.db')
+    cur, conn = setUpDatabase('database2.db')
     createMasterTable(conn, cur)
     insertBillboardSongs(conn, cur)
     createYoutubeTables(conn, cur)
@@ -279,21 +280,17 @@ def main():
 
 # this was added to fix what we were losing points on without having to change the original implementation 
 def fixDB(cur, conn):
-    cur.execute('''CREATE TABLE IF NOT EXISTS artists (id INTEGER PRIMARY KEY, artist TEXT UNIQUE)''')
-    cur.execute('SELECT artist FROM master')
+    cur.execute("SELECT artist FROM master")
     artists = cur.fetchall()
     for artist in artists:
-        if not isinstance(artist[0], int):
+        if not artist[0].isdigit():
             cur.execute("INSERT OR IGNORE INTO artists (artist) VALUES (?)", (artist[0], ))
             cur.execute("SELECT id FROM artists where artist = (?)", (artist[0], ))
             id = cur.fetchone()
             cur.execute("UPDATE master SET artist = ? WHERE artist = ?", (id[0], artist[0]))
     conn.commit()
 
-    
-
 main()
-
     
 
     

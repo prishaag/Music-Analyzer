@@ -1,0 +1,337 @@
+Mean Views by Ranking
+songs ranked 0-10 mean views: 91116026.2
+songs ranked 10-20 mean views: 128778137.5
+songs ranked 20-30 mean views: 179938038.7
+songs ranked 30-40 mean views: 201989073.6
+songs ranked 40-50 mean views: 225982826.0
+songs ranked 50-60 mean views: 248009851.6
+songs ranked 60-70 mean views: 261528520.4
+songs ranked 70-80 mean views: 298087003.8
+songs ranked 80-90 mean views: 333859011.6
+songs ranked 90-100 mean views: 378898319.3
+
+Mean Likes by Ranking
+songs ranked 0-10 mean likes: 971456.8
+songs ranked 10-20 mean likes: 1291277.7
+songs ranked 20-30 mean likes: 1574218.2
+songs ranked 30-40 mean likes: 1950023.9
+songs ranked 40-50 mean likes: 2383978.9
+songs ranked 50-60 mean likes: 2757766.3
+songs ranked 60-70 mean likes: 2949301.5
+songs ranked 70-80 mean likes: 3809643.2
+songs ranked 80-90 mean likes: 4060805.1
+songs ranked 90-100 mean likes: 4643055.5
+
+Mean Comments by Ranking
+songs ranked 0-10 mean comments: 36790.3
+songs ranked 10-20 mean comments: 43503.0
+songs ranked 20-30 mean comments: 53742.3
+songs ranked 30-40 mean comments: 68025.5
+songs ranked 40-50 mean comments: 81163.1
+songs ranked 50-60 mean comments: 92454.7
+songs ranked 60-70 mean comments: 97761.7
+songs ranked 70-80 mean comments: 147542.5
+songs ranked 80-90 mean comments: 153904.5
+songs ranked 90-100 mean comments: 184219.9
+
+Song stats by rank
+1. "Rockin' Around The Christmas Tree":
+Popularity: 97.0,    Danceablity: 0.589,    Tempo 67.196
+
+2. "All I Want For Christmas Is You":
+Popularity: 99.0,    Danceablity: 0.336,    Tempo 150.273
+
+3. "Lovin On Me":
+Popularity: 96.0,    Danceablity: 0.943,    Tempo 104.983
+
+4. "Jingle Bell Rock":
+Popularity: 93.0,    Danceablity: 0.754,    Tempo 119.705
+
+5. "Last Christmas":
+Popularity: 94.0,    Danceablity: 0.735,    Tempo 107.682
+
+6. "A Holly Jolly Christmas":
+Popularity: 90.0,    Danceablity: 0.683,    Tempo 140.467
+
+7. "Cruel Summer":
+Popularity: 99.0,    Danceablity: 0.552,    Tempo 169.994
+
+8. "Paint The Town Red":
+Popularity: 95.0,    Danceablity: 0.868,    Tempo 99.968
+
+9. "Snooze":
+Popularity: 93.0,    Danceablity: 0.559,    Tempo 143.008
+
+10. "It's The Most Wonderful Time Of The Year":
+Popularity: 93.0,    Danceablity: 0.24,    Tempo 201.629
+
+11. "Greedy":
+Popularity: 100.0,    Danceablity: 0.75,    Tempo 111.018
+
+12. "I Remember Everything":
+Popularity: 93.0,    Danceablity: 0.429,    Tempo 77.639
+
+13. "Let It Snow, Let It Snow, Let It Snow!":
+Popularity: 94.0,    Danceablity: 0.451,    Tempo 134.009
+
+14. "Sleigh Ride":
+Popularity: 89.0,    Danceablity: 0.529,    Tempo 91.751
+
+15. "Water":
+Popularity: 95.0,    Danceablity: 0.673,    Tempo 117.187
+
+16. "Feliz Navidad":
+Popularity: 86.0,    Danceablity: 0.513,    Tempo 148.837
+
+17. "Underneath The Tree":
+Popularity: 84.0,    Danceablity: 0.509,    Tempo 159.878
+
+18. "Santa Tell Me":
+Popularity: 15.0,    Danceablity: 0.664,    Tempo 96.055
+
+19. "The Christmas Song (Merry Christmas To You)":
+Popularity: 90.0,    Danceablity: 0.319,    Tempo 78.696
+
+20. "Last Night":
+Popularity: 85.0,    Danceablity: 0.517,    Tempo 203.853
+
+21. "Is It Over Now? (Taylor's Version) [From The Vault]":
+Popularity: 94.0,    Danceablity: 0.596,    Tempo 100.012
+
+22. "Thinkin' Bout Me":
+Popularity: 86.0,    Danceablity: 0.656,    Tempo 139.971
+
+23. "White Christmas":
+Popularity: 69.0,    Danceablity: 0.578,    Tempo 127.374
+
+24. "Agora Hills":
+Popularity: 93.0,    Danceablity: 0.75,    Tempo 123.026
+
+25. "Fast Car":
+Popularity: 88.0,    Danceablity: 0.712,    Tempo 97.994
+
+26. "Rudolph The Red-Nosed Reindeer":
+Popularity: 79.0,    Danceablity: 0.629,    Tempo 142.157
+
+27. "Christmas (Baby Please Come Home)":
+Popularity: 84.0,    Danceablity: 0.325,    Tempo 126.627
+
+28. "Deck The Halls":
+Popularity: 87.0,    Danceablity: 0.684,    Tempo 107.607
+
+29. "It's Beginning To Look A Lot Like Christmas":
+Popularity: 91.0,    Danceablity: 0.339,    Tempo 94.775
+
+30. "Jingle Bells":
+Popularity: 78.0,    Danceablity: 0.706,    Tempo 86.997
+
+31. "It's Beginning To Look A Lot Like Christmas(repeat)":
+Popularity: 86.0,    Danceablity: 0.331,    Tempo 92.896
+
+32. "Blue Christmas":
+Popularity: 88.0,    Danceablity: 0.465,    Tempo 94.518
+
+33. "Rich Baby Daddy":
+Popularity: 89.0,    Danceablity: 0.645,    Tempo 146.01
+
+34. "First Person Shooter":
+Popularity: 91.0,    Danceablity: 0.47,    Tempo 163.92
+
+35. "Lil Boo Thang":
+Popularity: 87.0,    Danceablity: 0.85,    Tempo 114.481
+
+36. "Need A Favor":
+Popularity: 78.0,    Danceablity: 0.502,    Tempo 157.978
+
+37. "Vampire":
+Popularity: 94.0,    Danceablity: 0.511,    Tempo 138.005
+
+38. "Save Me":
+Popularity: 74.0,    Danceablity: 0.677,    Tempo 83.087
+
+39. "Fukumean":
+Popularity: 93.0,    Danceablity: 0.847,    Tempo 130.001
+
+40. "Here Comes Santa Claus (Right Down Santa Claus Lane)":
+Popularity: 84.0,    Danceablity: 0.575,    Tempo 79.576
+
+41. "Used To Be Young":
+Popularity: 83.0,    Danceablity: 0.451,    Tempo 147.06
+
+42. "Run Rudolph Run":
+Popularity: 87.0,    Danceablity: 0.681,    Tempo 152.132
+
+43. "You're A Mean One, Mr. Grinch":
+Popularity: 74.0,    Danceablity: 0.567,    Tempo 89.987
+
+44. "Santa Claus Is Comin' To Town":
+Popularity: 84.0,    Danceablity: 0.357,    Tempo 139.986
+
+45. "What Was I Made For?":
+Popularity: 94.0,    Danceablity: 0.444,    Tempo 78.403
+
+46. "You're Losing Me":
+Popularity: 92.0,    Danceablity: 0.747,    Tempo 102.984
+
+47. "Happy Holiday / The Holiday Season":
+Popularity: 82.0,    Danceablity: 0.505,    Tempo 74.347
+
+48. "Good Good":
+Popularity: 75.0,    Danceablity: 0.753,    Tempo 140.948
+
+49. "Wonderful Christmastime":
+Popularity: 89.0,    Danceablity: 0.774,    Tempo 94.736
+
+50. "White Horse":
+Popularity: 81.0,    Danceablity: 0.353,    Tempo 145.225
+
+51. "Stick Season":
+Popularity: 93.0,    Danceablity: 0.662,    Tempo 117.913
+
+52. "Houdini":
+Popularity: 93.0,    Danceablity: 0.744,    Tempo 116.985
+
+53. "My Love Mine All Mine":
+Popularity: 98.0,    Danceablity: 0.504,    Tempo 113.95
+
+54. "Lose Control":
+Popularity: 84.0,    Danceablity: 0.561,    Tempo 159.92
+
+55. "IDGAF":
+Popularity: 93.0,    Danceablity: 0.663,    Tempo 136.952
+
+56. "Monaco":
+Popularity: 96.0,    Danceablity: 0.787,    Tempo 139.056
+
+57. "I Know ?":
+Popularity: 91.0,    Danceablity: 0.927,    Tempo 117.995
+
+58. "You Broke My Heart":
+Popularity: 84.0,    Danceablity: 0.465,    Tempo 120.854
+
+59. "Can't Catch Me Now":
+Popularity: 89.0,    Danceablity: 0.521,    Tempo 141.965
+
+60. "World On Fire":
+Popularity: 52.0,    Danceablity: 0.535,    Tempo 78.935
+
+61. "On My Mama":
+Popularity: 74.0,    Danceablity: 0.481,    Tempo 153.277
+
+62. "Pretty Little Poison":
+Popularity: 77.0,    Danceablity: 0.518,    Tempo 111.865
+
+63. "Exes":
+Popularity: 90.0,    Danceablity: 0.838,    Tempo 136.965
+
+64. "500lbs":
+Popularity: 85.0,    Danceablity: 0.731,    Tempo 123.042
+
+65. "Harley Quinn":
+Popularity: 95.0,    Danceablity: 0.815,    Tempo 125.031
+
+66. "Strangers":
+Popularity: 97.0,    Danceablity: 0.628,    Tempo 169.982
+
+67. "Can't Have Mine":
+Popularity: 62.0,    Danceablity: 0.663,    Tempo 143.969
+
+68. "Get Him Back!":
+Popularity: 88.0,    Danceablity: 0.546,    Tempo 162.043
+
+69. "Wild Ones":
+Popularity: 83.0,    Danceablity: 0.65,    Tempo 136.03
+
+70. "Everything I Love":
+Popularity: 67.0,    Danceablity: 0.566,    Tempo 103.97
+
+71. "Truck Bed":
+Popularity: 71.0,    Danceablity: 0.662,    Tempo 132.057
+
+72. "3D":
+Popularity: 90.0,    Danceablity: 0.853,    Tempo 108.044
+
+73. "Virginia Beach":
+Popularity: 85.0,    Danceablity: 0.402,    Tempo 120.009
+
+74. "Now That We Don't Talk (Taylor's Version) [From The Vault]":
+Popularity: 91.0,    Danceablity: 0.793,    Tempo 109.994
+
+75. "Great Gatsby":
+Popularity: 80.0,    Danceablity: 0.67,    Tempo 156.937
+
+76. "The Painter":
+Popularity: 78.0,    Danceablity: 0.512,    Tempo 97.981
+
+77. "Surround Sound":
+Popularity: 90.0,    Danceablity: 0.575,    Tempo 75.956
+
+78. "Qlona":
+Popularity: 88.0,    Danceablity: 0.842,    Tempo 169.925
+
+79. "Try That In A Small Town":
+Popularity: 40.0,    Danceablity: 0.467,    Tempo 145.994
+
+80. "Standing Next To You":
+Popularity: 98.0,    Danceablity: 0.711,    Tempo 106.017
+
+81. "Segun Quien":
+Popularity: 88.0,    Danceablity: 0.909,    Tempo 101.987
+
+82. "Burn It Down":
+Popularity: 68.0,    Danceablity: 0.461,    Tempo 162.187
+
+83. "Que Onda":
+Popularity: 95.0,    Danceablity: 0.808,    Tempo 124.934
+
+84. "Where The Wild Things Are":
+Popularity: 78.0,    Danceablity: 0.708,    Tempo 116.975
+
+85. "Hey Driver":
+Popularity: 85.0,    Danceablity: 0.583,    Tempo 79.014
+
+86. "Bad Idea Right?":
+Popularity: 63.0,    Danceablity: 0.625,    Tempo 129.987
+
+87. "Northern Attitude":
+Popularity: 84.0,    Danceablity: 0.486,    Tempo 122.017
+
+88. "Perro Negro":
+Popularity: 97.0,    Danceablity: 0.911,    Tempo 96.057
+
+89. "Save Me The Trouble":
+Popularity: 70.0,    Danceablity: 0.444,    Tempo 134.931
+
+90. "Slime You Out":
+Popularity: 81.0,    Danceablity: 0.483,    Tempo 88.88
+
+91. "Turks & Caicos":
+Popularity: 81.0,    Danceablity: 0.544,    Tempo 103.148
+
+92. "Too Much":
+Popularity: 64.0,    Danceablity: 0.595,    Tempo 130.689
+
+93. "Meltdown":
+Popularity: 88.0,    Danceablity: 0.557,    Tempo 111.975
+
+94. "El Amor de Su Vida":
+Popularity: 90.0,    Danceablity: 0.616,    Tempo 151.701
+
+95. "Different 'Round Here":
+Popularity: 74.0,    Danceablity: 0.457,    Tempo 141.936
+
+96. "But I Got A Beer In My Hand":
+Popularity: 71.0,    Danceablity: 0.404,    Tempo 208.138
+
+97. "Labios Mordidos":
+Popularity: 84.0,    Danceablity: 0.715,    Tempo 90.005
+
+98. "Slut! (Taylor's Version) [From The Vault]":
+Popularity: 90.0,    Danceablity: 0.629,    Tempo 77.983
+
+99. "Rich Men North Of Richmond":
+Popularity: 84.0,    Danceablity: 0.678,    Tempo 121.722
+
+100. "Say Don't Go (Taylor's Version) [From The Vault]":
+Popularity: 88.0,    Danceablity: 0.626,    Tempo 109.946
+

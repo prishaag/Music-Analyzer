@@ -7,7 +7,7 @@ import numpy as np
 from scipy.stats import linregress
 
 
-
+# sets up database and returns cur, conn
 def setUpDatabase(db_name):
     path = os.path.dirname(os.path.abspath(__file__))
     conn = sqlite3.connect(path+'/'+db_name)
@@ -25,9 +25,12 @@ def meanYtData(cur):
     likeMeans = []
     commentMeans = []
     for view in songs:
-        viewTotals += view[1]
-        likeTotals += view[2]
-        commentTotals += view[3]
+        viewTotals += int(view[1])
+        if view[2] == 'N/A':
+            likeTotals += 0 
+        else:
+            likeTotals += int(view[2])
+        commentTotals += int(view[3])
         if view[0] % 10 == 0:
             viewMeans.append(((viewTotals / 10), (view[0])))
             likeMeans.append(((likeTotals / 10), (view[0])))
@@ -96,7 +99,7 @@ def main():
     spotifyData = meanSpotifyData(cur)
     f.write("\nSong stats by rank\n")
     for d in spotifyData:
-        f.write(f'{d[0]}. "{d[4]}" by {d[5]}:\n') 
+        f.write(f'{d[0]}. "{d[4]}":\n') 
         f.write(f'Popularity: {d[1]},    Danceablity: {d[2]},    Tempo {d[3]}\n\n')
         
     audioFeatures = getAudioFeatures(cur)
@@ -124,6 +127,5 @@ def main():
     plt.tight_layout()
     plt.show()
     
-    print(audioFeatures)
 
 main()
